@@ -1,3 +1,4 @@
+import java.util.*;
 @SuppressWarnings("unchecked")
 public class MyDeque<E>{
   public E[] data;
@@ -25,18 +26,26 @@ public class MyDeque<E>{
     return output;}
 
   public E getFirst(){
+    if(size() == 0){
+      throw new NoSuchElementException("your double deque is empty");}
     return data[start];}
 
   public E getLast(){
+    if(size() == 0){
+      throw new NoSuchElementException("your double deque is empty");}
     return data[end];}
 
   public E removeFirst(){
+    if(size() == 0){
+      throw new NoSuchElementException("your double deque is empty");}
     E temp = getFirst();
     start = (start + 1) %(size());
     size --;
     return temp;}
 
   public E removeLast(){
+    if(size() == 0){
+      throw new NoSuchElementException("your double deque is empty");}
     E temp = getLast();
     if(end == 0){
       end = size();}
@@ -45,6 +54,8 @@ public class MyDeque<E>{
     return temp;}
 
   public void addFirst(E element){
+    if(element == null){
+      throw new NullPointerException("please enter a non-null element");}
     if(start == 0){
       resize();
       start = size();}
@@ -52,6 +63,8 @@ public class MyDeque<E>{
     data[start] = element;}
 
   public void addLast(E element){
+    if(element == null){
+      throw new NullPointerException("please enter a non-null element");}
     end = (end + 1) % (size());
     data[end] = element;}
 
