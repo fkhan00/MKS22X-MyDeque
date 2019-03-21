@@ -32,17 +32,23 @@ public class MyDeque<E>{
     return data[end];}
 
   public void removeFirst(){
-    start = (start + 1) %(data.length);}
+    start = (start + 1) %(size());
+    size --;}
 
   public void removeLast(){
     if(end == 0){
-      end = data.length - 1;}
-    end = end - 1;}
+      end = size();}
+    end = end - 1;
+    size --;}
 
   public void addFirst(E element){
-}
+    if(start == 0){
+      resize();
+      start = size();}
+    start ++;
+    data[start] = element;}
 
   public void addLast(E element){
-
-  }
+    end = (end + 1) % (size());
+    data[end] = element;}
 }
