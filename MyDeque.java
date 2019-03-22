@@ -18,6 +18,9 @@ public class MyDeque<E>{
     return size;}
 
   public String toString(){
+    if(size() == 0){
+      return "[]";
+    }
     String output = "[";
     if(end < start){
     for(int i = start; i < data.length; i++){
@@ -31,7 +34,7 @@ public class MyDeque<E>{
         if(data[i] != null){
         output += data[i] +", ";}}
     }
-    return output.substring(0, output.length()) + "]";}
+    return output.substring(0, output.length() - 2) + "]";}
 
   public E getFirst(){
     if(size() == 0){
