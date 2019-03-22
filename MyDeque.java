@@ -19,22 +19,22 @@ public class MyDeque<E>{
 
   public String toString(){
     if(size() == 0){
-      return "[]";
+      return "{}";
     }
-    String output = "[";
+    String output = "{";
     if(end < start){
     for(int i = start; i < data.length; i++){
       if(data[i] != null){
-      output +=  data[i] + ", ";}}
+      output +=  data[i] + " ";}}
     for(int i = 0; i <= end; i++){
       if(data[i] != null){
-      output += data[i] + ", ";}}}
+      output += data[i] + " ";}}}
     else{
       for(int i = start; i <= end; i++){
         if(data[i] != null){
-        output += data[i] +", ";}}
+        output += data[i] +" ";}}
     }
-    return output.substring(0, output.length() - 2) + "]";}
+    return output + "}";}
 
   public E getFirst(){
     if(size() == 0){
@@ -43,12 +43,12 @@ public class MyDeque<E>{
 
   public E getLast(){
     if(size() == 0){
-      throw new NoSuchElementException("your double deque is empty");}
+      throw new NoSuchElementException("[]");}
     return data[end];}
 
   public E removeFirst(){
     if(size() == 0){
-      throw new NoSuchElementException("your double deque is empty");}
+      throw new NoSuchElementException("[]");}
     E temp = getFirst();
     start = (start + 1) %(size() + 1);
     size --;
@@ -56,7 +56,7 @@ public class MyDeque<E>{
 
   public E removeLast(){
     if(size() == 0){
-      throw new NoSuchElementException("your double deque is empty");}
+      throw new NoSuchElementException("[]");}
     E temp = getLast();
     if(end == 0){
       end = size();}
@@ -90,11 +90,11 @@ public class MyDeque<E>{
       start = 0;
       end = 1;
       data[1] = element;
-      size = 1;
+      size++;
       return;}
-    if(end == data.length){
+    if(Math.abs(end - start) == 1){
       resize();}
-    end = (end + 1) % (size());
+    end = (end + 1) % (data.length);
     size ++;
     data[end] = element;}
 
