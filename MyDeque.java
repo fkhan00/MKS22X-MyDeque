@@ -104,4 +104,24 @@ public class MyDeque<E>{
       temp[i] = data[i];}
     data = temp;
     }
-}
+
+public class Calculator{
+  public  double eval(String s){
+    MyDeque<Double> pending = new MyDeque();
+    String operation = "";
+    for(int i = 0; i < s.length(); i++){
+      try{
+        operation = s.substring(i, i + 1);
+        pending.addFirst(1.0  * Integer.parseInt(s.substring(i, i + 1)));}
+      catch(NumberFormatException e){
+        if(operation.equals("+")){
+          pending.addLast(pending.removeFirst() + pending.removeFirst());}
+        if(operation.equals("-")){
+          pending.addLast(pending.removeFirst() - pending.removeFirst());}
+        if(operation.equals("/")){
+          pending.addLast(pending.removeFirst() / pending.removeFirst());}
+        if(operation.equals("*")){
+          pending.addLast(pending.removeFirst() + pending.removeFirst());}
+        if(operation.equals("%")){
+          pending.addLast(pending.removeFirst() % pending.removeFirst());}}}
+    return pending.removeLast();}}}
