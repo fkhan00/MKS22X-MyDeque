@@ -21,20 +21,20 @@ public class MyDeque<E>{
     if(size() == 0){
       return "{}";
     }
-    String output = "{";
+    String output = "[";
     if(end < start){
     for(int i = start; i < data.length; i++){
       if(data[i] != null){
-      output +=  data[i] + " ";}}
+      output +=  data[i] + ", ";}}
     for(int i = 0; i <= end; i++){
       if(data[i] != null){
-      output += data[i] + " ";}}}
+      output += data[i] + ", ";}}}
     else{
       for(int i = start; i <= end; i++){
         if(data[i] != null){
-        output += data[i] +" ";}}
+        output += data[i] +", ";}}
     }
-    return output + "}";}
+    return output.substring(0, output.length() - 2) + "]";}
 
   public E getFirst(){
     if(size() == 0){
@@ -50,78 +50,86 @@ public class MyDeque<E>{
     if(size() == 0){
       throw new NoSuchElementException("[]");}
     E temp = getFirst();
-    start = (start + 1) %(size() + 1);
+    start = (start + 1) % (data.length);
     size --;
     return temp;}
+
 
   public E removeLast(){
     if(size() == 0){
       throw new NoSuchElementException("[]");}
     E temp = getLast();
     if(end == 0){
-      end = size();}
-    end = end - 1;
-    size --;
+      end = data.length - 1;}
+    else{
+      end --;}
     return temp;}
 
   public void addFirst(E element){
     if(element == null){
       throw new NullPointerException("please enter a non-null element");}
-    if(size() == 0){
+    if(end - start == data.length - 1 || end - start == 1){
       resize();
-      start = 0;
-      end = 1;
-      size = 1;
-      data[0] = element;
-      return;
-      }
-    if(start == 0){
-      resize();
-      start = size();}
-    start ++;
-    size ++;
-    data[start] = element;}
+      start = data.length - 1;
+      size ++;
+      data[start] = element;}
+    else if(start == 0){
+      start = data.length - 1;
+      data[start] = element;
+      size ++;
+    }
+    else{
+      start --;
+      data[start] = element;
+      size ++;}}
 
   public void addLast(E element){
     if(element == null){
       throw new NullPointerException("please enter a non-null element");}
-    if(size() == 0){
+    if(end - start == data.length - 1 || end - start == 1){
       resize();
-      start = 0;
-      end = 1;
-      data[1] = element;
-      size++;
-      return;}
-    if(Math.abs(end - start) == 1){
-      resize();}
-    end = (end + 1) % (data.length);
-    size ++;
-    data[end] = element;}
+      end++;
+      size ++;
+      data[end] = element;}
+    else{
+      end = (end + 1) % (data.length);
+      size ++;
+      data[end] = element;}}
 
   public void resize(){
-    E[] temp = (E[])new Object[(size() + 1) * 2];
-    for(int i = 0; i < data.length; i++){
-      temp[i] = data[i];}
-    data = temp;
-    }
+    E[] temp = (E[])new Object[(data.length + 1) * 2];
+    if(end < start){
+      for(int i = start; i < data.length; i++){
+        temp[i] = data[i];}
+      for(int j = 0; j <= end; j++){
+        temp[j] = data[j];}}
+    else{
+      for(int i = start; i <= end; i++){
+        temp[i] = data[i];}}
+    data = temp;}
 
-public class Calculator{
-  public  double eval(String s){
-    MyDeque<Double> pending = new MyDeque();
-    String operation = "";
-    for(int i = 0; i < s.length(); i++){
-      try{
-        operation = s.substring(i, i + 1);
-        pending.addFirst(1.0  * Integer.parseInt(s.substring(i, i + 1)));}
-      catch(NumberFormatException e){
-        if(operation.equals("+")){
-          pending.addLast(pending.removeFirst() + pending.removeFirst());}
-        if(operation.equals("-")){
-          pending.addLast(pending.removeFirst() - pending.removeFirst());}
-        if(operation.equals("/")){
-          pending.addLast(pending.removeFirst() / pending.removeFirst());}
-        if(operation.equals("*")){
-          pending.addLast(pending.removeFirst() + pending.removeFirst());}
-        if(operation.equals("%")){
-          pending.addLast(pending.removeFirst() % pending.removeFirst());}}}
-    return pending.removeLast();}}}
+    public static double eval(String s){
+      MyDeque<Double> pending = new MyDeque();
+      String operation = "";
+      for(int i = 0; i < s.length(); i++){
+        try{
+          operation = s.substring(i, i + 1);
+          pending.addFirst(1.0  * Double.parseDouble(s.substring(i, i + 1)));}
+          catch(NumberFormatException e){
+            try{
+              pending.addFirst(1.0  * Integer.parseInt(s.substring(i, i + 1)));}
+        catch(NumberFormatException f){
+          if(operation.equals("+")){
+            pending.addFirst(pending.removeFirst() + pending.removeFirst());}
+          if(operation.equals("-")){
+            pending.addFirst(pending.removeFirst() - pending.removeFirst());}
+          if(operation.equals("/")){
+            pending.addFirst(pending.removeFirst() / pending.removeFirst());}
+          if(operation.equals("*")){
+            pending.addFirst(pending.removeFirst() + pending.removeFirst());}
+          if(operation.equals("%")){
+            pending.addFirst(pending.removeFirst() % pending.removeFirst());}}
+        System.out.println(pending.getFirst());
+      }}
+      return pending.removeFirst();}
+  }
