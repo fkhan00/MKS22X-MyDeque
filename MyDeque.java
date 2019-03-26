@@ -63,6 +63,7 @@ public class MyDeque<E>{
       end = data.length - 1;}
     else{
       end --;}
+    size --;
     return temp;}
 
   public void addFirst(E element){
@@ -107,24 +108,31 @@ public class MyDeque<E>{
       for(int i = start; i <= end; i++){
         temp[i] = data[i];}}
     data = temp;}
-
     public static double eval(String s){
+      System.out.println(s);
+      s += " ";
       MyDeque<Double> pending = new MyDeque();
       Scanner scan = new Scanner(s);
-      int counter = 0;
       String operation = "";
+      double op = 0;
       while(scan.hasNext()){
-        operation = s.substring(counter, counter + 1);
-          if(operation.equals("+")){
+        while(scan.hasNextDouble()){
+          pending.addFirst(scan.nextDouble());}
+        if(! scan.hasNextDouble() && scan.hasNext()){
+          scan.next();}}
+      for(int counter = 0; counter < s.length() - 1; counter ++){
+        System.out.println(pending.toString());
+
+        operation = s.substring(counter, counter + 2);
+          if(operation.equals("+ ")){
             pending.addFirst(pending.removeFirst() + pending.removeFirst());}
-          if(operation.equals("-")){
-            pending.addFirst(pending.removeFirst() - pending.removeFirst());}
-          if(operation.equals("/")){
-            pending.addFirst(pending.removeFirst() / pending.removeFirst());}
-          if(operation.equals("*")){
+          if(operation.equals("- ")){
+            pending.addFirst(-1 * pending.removeFirst() + pending.removeFirst());}
+          if(operation.equals("/ ")){
+            pending.addFirst(Math.pow(pending.removeFirst(), -1) * pending.removeFirst());}
+          if(operation.equals("* ")){
             pending.addFirst(pending.removeFirst() * pending.removeFirst());}
-          if(operation.equals("%")){
-            pending.addFirst(pending.removeFirst() % pending.removeFirst());}
-        pending.addFirst(scan.nextDouble());}
-      return pending.removeFirst();}
-  }
+          if(operation.equals("% ")){
+            op = pending.removeFirst();
+            pending.addFirst(pending.removeFirst() % op);}}
+      return pending.removeFirst();}}
