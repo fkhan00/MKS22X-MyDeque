@@ -110,15 +110,11 @@ public class MyDeque<E>{
 
     public static double eval(String s){
       MyDeque<Double> pending = new MyDeque();
+      Scanner scan = new Scanner(s);
+      int counter = 0;
       String operation = "";
-      for(int i = 0; i < s.length(); i++){
-        try{
-          operation = s.substring(i, i + 1);
-          pending.addFirst(1.0  * Double.parseDouble(s.substring(i, i + 1)));}
-          catch(NumberFormatException e){
-            try{
-              pending.addFirst(1.0  * Integer.parseInt(s.substring(i, i + 1)));}
-        catch(NumberFormatException f){
+      while(scan.hasNext()){
+        operation = s.substring(counter, counter + 1);
           if(operation.equals("+")){
             pending.addFirst(pending.removeFirst() + pending.removeFirst());}
           if(operation.equals("-")){
@@ -126,10 +122,9 @@ public class MyDeque<E>{
           if(operation.equals("/")){
             pending.addFirst(pending.removeFirst() / pending.removeFirst());}
           if(operation.equals("*")){
-            pending.addFirst(pending.removeFirst() + pending.removeFirst());}
+            pending.addFirst(pending.removeFirst() * pending.removeFirst());}
           if(operation.equals("%")){
-            pending.addFirst(pending.removeFirst() % pending.removeFirst());}}
-        System.out.println(pending.getFirst());
-      }}
+            pending.addFirst(pending.removeFirst() % pending.removeFirst());}
+        pending.addFirst(scan.nextDouble());}
       return pending.removeFirst();}
   }
