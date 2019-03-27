@@ -108,31 +108,34 @@ public class MyDeque<E>{
       for(int i = start; i <= end; i++){
         temp[i] = data[i];}}
     data = temp;}
-    public static double eval(String s){
-      System.out.println(s);
-      s += " ";
-      MyDeque<Double> pending = new MyDeque();
-      Scanner scan = new Scanner(s);
-      String operation = "";
-      double op = 0;
-      while(scan.hasNext()){
-        while(scan.hasNextDouble()){
-          pending.addFirst(scan.nextDouble());}
-        if(! scan.hasNextDouble() && scan.hasNext()){
-          scan.next();}}
-      for(int counter = 0; counter < s.length() - 1; counter ++){
-        System.out.println(pending.toString());
 
-        operation = s.substring(counter, counter + 2);
-          if(operation.equals("+ ")){
-            pending.addFirst(pending.removeFirst() + pending.removeFirst());}
-          if(operation.equals("- ")){
-            pending.addFirst(-1 * pending.removeFirst() + pending.removeFirst());}
-          if(operation.equals("/ ")){
-            pending.addFirst(Math.pow(pending.removeFirst(), -1) * pending.removeFirst());}
-          if(operation.equals("* ")){
-            pending.addFirst(pending.removeFirst() * pending.removeFirst());}
-          if(operation.equals("% ")){
-            op = pending.removeFirst();
-            pending.addFirst(pending.removeFirst() % op);}}
-      return pending.removeFirst();}}
+  public static double eval(String s){
+    s += " ";
+    ArrayList<String> ary = new ArrayList<String>();
+    String temp = "";
+    for(int i = 0; i < s.length(); i++){
+      if(! s.substring(i, i + 1).equals(" ")){
+        temp += s.substring(i, i + 1);}
+      else{
+        ary.add(temp);
+        temp = "";}}
+    System.out.println(ary.toString());
+    Double op = 0.0;
+    MyDeque<Double> pending = new MyDeque<Double>();
+    for(int i = 0; i < ary.size(); i++){
+      if(ary.get(i).equals("+")){
+        pending.addFirst(pending.removeFirst() + pending.removeFirst());}
+      else if(ary.get(i).equals("-")){
+        pending.addFirst(-1 * pending.removeFirst() + pending.removeFirst());}
+      else if(ary.get(i).equals("*")){
+        pending.addFirst(pending.removeFirst() * pending.removeFirst());}
+      else if(ary.get(i).equals("/")){
+        pending.addFirst(Math.pow(pending.removeFirst(), -1) * pending.removeFirst());}
+      else if(ary.get(i).equals("%")){
+        op = pending.removeFirst();
+        pending.addFirst(pending.removeFirst() % op);
+      }
+      else{
+        pending.addFirst(Double.parseDouble(ary.get(i)));}}
+    return pending.removeFirst();
+  }}
