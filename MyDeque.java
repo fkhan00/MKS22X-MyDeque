@@ -19,8 +19,7 @@ public class MyDeque<E>{
 
   public String toString(){
     if(size() == 0){
-      return "{}";
-    }
+      return "{}";}
     String output = "[";
     if(end < start){
     for(int i = start; i < data.length; i++){
@@ -107,35 +106,22 @@ public class MyDeque<E>{
     else{
       for(int i = start; i <= end; i++){
         temp[i] = data[i];}}
-    data = temp;}
+    data = temp;}}
 
+public class Calculator{
   public static double eval(String s){
-    s += " ";
-    ArrayList<String> ary = new ArrayList<String>();
-    String temp = "";
-    for(int i = 0; i < s.length(); i++){
-      if(! s.substring(i, i + 1).equals(" ")){
-        temp += s.substring(i, i + 1);}
-      else{
-        ary.add(temp);
-        temp = "";}}
-    System.out.println(ary.toString());
-    Double op = 0.0;
+    Scanner expression = new Scanner(s);
     MyDeque<Double> pending = new MyDeque<Double>();
-    for(int i = 0; i < ary.size(); i++){
-      if(ary.get(i).equals("+")){
-        pending.addFirst(pending.removeFirst() + pending.removeFirst());}
-      else if(ary.get(i).equals("-")){
-        pending.addFirst(-1 * pending.removeFirst() + pending.removeFirst());}
-      else if(ary.get(i).equals("*")){
-        pending.addFirst(pending.removeFirst() * pending.removeFirst());}
-      else if(ary.get(i).equals("/")){
-        pending.addFirst(Math.pow(pending.removeFirst(), -1) * pending.removeFirst());}
-      else if(ary.get(i).equals("%")){
-        op = pending.removeFirst();
-        pending.addFirst(pending.removeFirst() % op);
-      }
-      else{
-        pending.addFirst(Double.parseDouble(ary.get(i)));}}
-    return pending.removeFirst();
-  }}
+    Double op = 0.0;
+    while (expression.hasNext()) {
+      String message = expression.next();
+      if(message.equals("+")) pending.addFirst(pending.removeFirst() + pending.removeFirst());
+      else if (message.equals("*")) pending.addFirst(pending.removeFirst() * pending.removeFirst());
+      else if(message.equals("/")) pending.addFirst(Math.pow(pending.removeFirst(), -1) * pending.removeFirst());
+      else if (message.equals("-")) pending.addFirst(pending.removeFirst() * -1 + pending.removeFirst());
+      else if (message.equals("%")){
+      op = pending.removeFirst();
+      pending.addFirst(pending.removeFirst() % op);}
+      else pending.addFirst(Double.parseDouble(message));}
+  return pending.removeFirst();}
+}
