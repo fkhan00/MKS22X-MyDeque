@@ -7,10 +7,11 @@ public class MyDeque<E>{
     size = 0;
     start = 0;
     end = 0;
-    data = (E[]) new Object[1];}
+    data = (E[]) new Object[10000];}
+
   public MyDeque(int startingCapacity){
     size = startingCapacity;
-    end = startingCapacity;
+    end = startingCapacity - 1;
     start = 0;
     data = (E[])new Object[startingCapacity];}
 
@@ -20,34 +21,34 @@ public class MyDeque<E>{
   public String toString(){
     if(size() == 0){
       return "{}";}
-    String output = "[";
+    String output = "{";
     if(end < start){
     for(int i = start; i < data.length; i++){
       if(data[i] != null){
-      output +=  data[i] + ", ";}}
+      output +=  data[i] + " ";}}
     for(int i = 0; i <= end; i++){
       if(data[i] != null){
-      output += data[i] + ", ";}}}
+      output += data[i] + " ";}}}
     else{
       for(int i = start; i <= end; i++){
         if(data[i] != null){
-        output += data[i] +", ";}}
+        output += data[i] +" ";}}
     }
-    return output.substring(0, output.length() - 2) + "]";}
+    return output.substring(0, output.length() - 1) + "}";}
 
   public E getFirst(){
     if(size() == 0){
-      throw new NoSuchElementException("your double deque is empty");}
+      throw new NoSuchElementException("NoSuchElementException");}
     return data[start];}
 
   public E getLast(){
     if(size() == 0){
-      throw new NoSuchElementException("[]");}
+      throw new NoSuchElementException("NoSuchElementException");}
     return data[end];}
 
   public E removeFirst(){
     if(size() == 0){
-      throw new NoSuchElementException("[]");}
+      throw new NoSuchElementException("NoSuchElementException");}
     E temp = getFirst();
     start = (start + 1) % (data.length);
     size --;
@@ -85,8 +86,8 @@ public class MyDeque<E>{
 
   public void addLast(E element){
     if(element == null){
-      throw new NullPointerException("please enter a non-null element");}
-    if(end - start == data.length - 1 || end - start == 1){
+      throw new NullPointerException("NullPointerException");}
+    if(start == data.length - 1 || end - start == 1){
       resize();
       end++;
       size ++;
@@ -97,7 +98,7 @@ public class MyDeque<E>{
       data[end] = element;}}
 
   public void resize(){
-    E[] temp = (E[])new Object[(data.length + 1) * 2];
+    E[] temp = (E[]) new Object[data.length * 2];
     if(end < start){
       for(int i = start; i < data.length; i++){
         temp[i] = data[i];}
@@ -106,9 +107,8 @@ public class MyDeque<E>{
     else{
       for(int i = start; i <= end; i++){
         temp[i] = data[i];}}
-    data = temp;}}
+    data = temp;}
 
-public class Calculator{
   public static double eval(String s){
     Scanner expression = new Scanner(s);
     MyDeque<Double> pending = new MyDeque<Double>();
